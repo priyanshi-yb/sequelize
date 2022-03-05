@@ -406,6 +406,7 @@
     "@babel/helper-validator-identifier" "^7.16.7"
     to-fast-properties "^2.0.0"
 
+<<<<<<< HEAD
 "@colors/colors@1.5.0":
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
@@ -421,6 +422,18 @@
     "@commitlint/load" "^16.2.1"
     "@commitlint/read" "^16.2.1"
     "@commitlint/types" "^16.2.1"
+=======
+"@commitlint/cli@16.1.0":
+  version "16.1.0"
+  resolved "https://registry.yarnpkg.com/@commitlint/cli/-/cli-16.1.0.tgz#022ad86008374b02974c9f3faf86affb785f4574"
+  integrity sha512-x5L1knvA3isRWBRVQx+Q6D45pA9139a2aZQYpxkljMG0dj4UHZkCnsYWpnGalxPxASI7nrI0KedKfS2YeQ55cQ==
+  dependencies:
+    "@commitlint/format" "^16.0.0"
+    "@commitlint/lint" "^16.0.0"
+    "@commitlint/load" "^16.1.0"
+    "@commitlint/read" "^16.0.0"
+    "@commitlint/types" "^16.0.0"
+>>>>>>> 3bf941738 (refactor(data-types): convert mysql data-types to TS)
     lodash "^4.17.19"
     resolve-from "5.0.0"
     resolve-global "1.0.0"
@@ -438,10 +451,17 @@
   dependencies:
     "@commitlint/config-angular-type-enum" "^16.2.1"
 
+<<<<<<< HEAD
 "@commitlint/config-validator@^16.2.1":
   version "16.2.1"
   resolved "https://registry.yarnpkg.com/@commitlint/config-validator/-/config-validator-16.2.1.tgz#794e769afd4756e4cf1bfd823b6612932e39c56d"
   integrity sha512-hogSe0WGg7CKmp4IfNbdNES3Rq3UEI4XRPB8JL4EPgo/ORq5nrGTVzxJh78omibNuB8Ho4501Czb1Er1MoDWpw==
+=======
+"@commitlint/config-validator@^16.1.0":
+  version "16.1.0"
+  resolved "https://registry.yarnpkg.com/@commitlint/config-validator/-/config-validator-16.1.0.tgz#410979f713ed55cbb85504d46295c1fd2419dc4d"
+  integrity sha512-2cHeZPNTuf1JWbMqyA46MkExor5HMSgv8JrdmzEakUbJHUreh35/wN00FJf57qGs134exQW2thiSQ1IJUsVx2Q==
+>>>>>>> 3bf941738 (refactor(data-types): convert mysql data-types to TS)
   dependencies:
     "@commitlint/types" "^16.2.1"
     ajv "^6.12.6"
@@ -485,6 +505,7 @@
     "@commitlint/rules" "^16.2.1"
     "@commitlint/types" "^16.2.1"
 
+<<<<<<< HEAD
 "@commitlint/load@^16.2.1":
   version "16.2.1"
   resolved "https://registry.yarnpkg.com/@commitlint/load/-/load-16.2.1.tgz#301bda1bff66b3e40a85819f854eda72538d8e24"
@@ -495,6 +516,17 @@
     "@commitlint/resolve-extends" "^16.2.1"
     "@commitlint/types" "^16.2.1"
     "@types/node" ">=12"
+=======
+"@commitlint/load@^16.1.0":
+  version "16.1.0"
+  resolved "https://registry.yarnpkg.com/@commitlint/load/-/load-16.1.0.tgz#7a884072ab915611080c5e99a1f1d999c05f4360"
+  integrity sha512-MtlEhKjP8jAF85jjX4mw8DUUwCxKsCgAc865hhpnwxjrfBcmGP7Up2AFE/M3ZMGDmSl1X1TMybQk/zohj8Cqdg==
+  dependencies:
+    "@commitlint/config-validator" "^16.1.0"
+    "@commitlint/execute-rule" "^16.0.0"
+    "@commitlint/resolve-extends" "^16.1.0"
+    "@commitlint/types" "^16.0.0"
+>>>>>>> 3bf941738 (refactor(data-types): convert mysql data-types to TS)
     chalk "^4.0.0"
     cosmiconfig "^7.0.0"
     cosmiconfig-typescript-loader "^1.0.0"
@@ -526,6 +558,7 @@
     fs-extra "^10.0.0"
     git-raw-commits "^2.0.0"
 
+<<<<<<< HEAD
 "@commitlint/resolve-extends@^16.2.1":
   version "16.2.1"
   resolved "https://registry.yarnpkg.com/@commitlint/resolve-extends/-/resolve-extends-16.2.1.tgz#2f7833a5a3a7aa79f508e59fcb0f1d33c45ed360"
@@ -533,6 +566,15 @@
   dependencies:
     "@commitlint/config-validator" "^16.2.1"
     "@commitlint/types" "^16.2.1"
+=======
+"@commitlint/resolve-extends@^16.1.0":
+  version "16.1.0"
+  resolved "https://registry.yarnpkg.com/@commitlint/resolve-extends/-/resolve-extends-16.1.0.tgz#4b199197c45ddb436b59ef319662de6870f68fd5"
+  integrity sha512-8182s6AFoUFX6+FT1PgQDt15nO2ogdR/EN8SYVAdhNXw1rLz8kT5saB/ICw567GuRAUgFTUMGCXy3ctMOXPEDg==
+  dependencies:
+    "@commitlint/config-validator" "^16.1.0"
+    "@commitlint/types" "^16.0.0"
+>>>>>>> 3bf941738 (refactor(data-types): convert mysql data-types to TS)
     import-fresh "^3.0.0"
     lodash "^4.17.19"
     resolve-from "^5.0.0"
@@ -1219,6 +1261,13 @@
   resolved "https://registry.yarnpkg.com/@types/ms/-/ms-0.7.31.tgz#31b7ca6407128a3d2bbc27fe2d21b345397f6197"
   integrity sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==
 
+"@types/mysql@^2.15.20":
+  version "2.15.20"
+  resolved "https://registry.yarnpkg.com/@types/mysql/-/mysql-2.15.20.tgz#9b4a3e11391bee82dc96659405d899228c157d19"
+  integrity sha512-QyOqSRhe540jmdg3AqiS8AbCDvSwDgxAJcsBkMqDQw0y87OQla7y8RFW/MYcUUHBFi1AZrRYkjzSAL/bfCKMuQ==
+  dependencies:
+    "@types/node" "*"
+
 "@types/node-fetch@^2.5.0":
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.6.1.tgz#8f127c50481db65886800ef496f20bbf15518975"
@@ -1252,10 +1301,17 @@
   resolved "https://registry.yarnpkg.com/@types/retry/-/retry-0.12.1.tgz#d8f1c0d0dc23afad6dc16a9e993a0865774b4065"
   integrity sha512-xoDlM2S4ortawSWORYqsdU+2rxdh4LRW9ytc3zmT37RIKQh6IHyKwwtKhKis9ah8ol07DCkZxPt8BBvPjC6v4g==
 
+<<<<<<< HEAD
 "@types/sinon@10.0.11":
   version "10.0.11"
   resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-10.0.11.tgz#8245827b05d3fc57a6601bd35aee1f7ad330fc42"
   integrity sha512-dmZsHlBsKUtBpHriNjlK0ndlvEh8dcb9uV9Afsbt89QIyydpC7NcR+nWlAhASfy3GHnxTl4FX/aKE7XZUt/B4g==
+=======
+"@types/sinon@10.0.8":
+  version "10.0.8"
+  resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-10.0.8.tgz#e43c3722629248470a866c86ecc06e5523ac0b4e"
+  integrity sha512-XZbSLlox2KM7VaEJPZ5G/fMZXJNuAtYiFOax7UT51quZMAJRWKvugPMqNA0mV3jC9HIYpQSg6qbV+ilQMwLqyA==
+>>>>>>> 3bf941738 (refactor(data-types): convert mysql data-types to TS)
   dependencies:
     "@types/sinonjs__fake-timers" "*"
 
@@ -5817,10 +5873,17 @@ linkify-it@^3.0.1:
   dependencies:
     uc.micro "^1.0.1"
 
+<<<<<<< HEAD
 lint-staged@12.3.4:
   version "12.3.4"
   resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-12.3.4.tgz#4b1ff8c394c3e6da436aaec5afd4db18b5dac360"
   integrity sha512-yv/iK4WwZ7/v0GtVkNb3R82pdL9M+ScpIbJLJNyCXkJ1FGaXvRCOg/SeL59SZtPpqZhE7BD6kPKFLIDUhDx2/w==
+=======
+lint-staged@12.2.2:
+  version "12.2.2"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-12.2.2.tgz#e03d93b41092316e0f38b37c9630da807aae3cca"
+  integrity sha512-bcHEoM1M/f+K1BYdHcEuIn8K+zMOSJR3mkny6PAuQiTgcSUcRbUWaUD6porAYypxF4k1vYZZ2HutZt1p94Z1jQ==
+>>>>>>> 3bf941738 (refactor(data-types): convert mysql data-types to TS)
   dependencies:
     cli-truncate "^3.1.0"
     colorette "^2.0.16"
@@ -8860,10 +8923,17 @@ targz@^1.0.1:
   dependencies:
     tar-fs "^1.8.1"
 
+<<<<<<< HEAD
 tedious@14.3.0:
   version "14.3.0"
   resolved "https://registry.yarnpkg.com/tedious/-/tedious-14.3.0.tgz#29b2bb7fdaafb69073740e14d21ac4e8a91b56ab"
   integrity sha512-ioorVbzGpGOLF9gkd47EtlHGDh0HQc9zgjlf5lon8hDCRwYZ79Uolu9cXQZ/gOPVyG63evbU7XjzEBOQOvcHeQ==
+=======
+tedious@8.3.1:
+  version "8.3.1"
+  resolved "https://registry.yarnpkg.com/tedious/-/tedious-8.3.1.tgz#f169699d26e20676f596740ff46012ed14d8f1b1"
+  integrity sha512-HraoUHvXbbVrdLcYSh1KBiffqvtuXubEe8zmuKFdWAEwTUi3fS3swM1HdSq5tq/Q+A0NowYf/qvkOM4qoBpNRw==
+>>>>>>> 3bf941738 (refactor(data-types): convert mysql data-types to TS)
   dependencies:
     "@azure/identity" "^2.0.1"
     "@azure/keyvault-keys" "^4.3.0"
