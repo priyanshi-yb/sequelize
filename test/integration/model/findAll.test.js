@@ -159,7 +159,7 @@ describe(Support.getTestDialectTeaser('Model'), () => {
         expect(users[0].intVal).to.equal(5);
       });
 
-      if (dialect === 'postgres') {
+      if (dialect === 'postgres' || dialect === 'yugabyte') {
         it('should be able to find a row using ilike', async function () {
           const users = await this.User.findAll({
             where: {
@@ -501,7 +501,7 @@ describe(Support.getTestDialectTeaser('Model'), () => {
         expect(users[1].intVal).to.equal(10);
       });
 
-      if (['postgres', 'sqlite'].includes(dialect)) {
+      if (['postgres', 'sqlite'].includes(dialect)) { // Yugabyte not support CITEXT yet
         it('should be able to find multiple users with case-insensitive on CITEXT type', async function () {
           const User = this.sequelize.define('UsersWithCaseInsensitiveName', {
             username: Sequelize.CITEXT,

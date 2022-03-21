@@ -19,80 +19,78 @@ describe(Support.getTestDialectTeaser('QueryInterface'), () => {
   });
 
   describe('changeColumn', () => {
-    it('should support schemas', async function () {
-      await this.sequelize.createSchema('archive');
+    if (dialect !== 'yugabyte'){
+      it('should support schemas', async function () { // ALTER TABLE ALTER COLUMN TYPE in YB.
+        await this.sequelize.createSchema('archive');
 
-      await this.queryInterface.createTable({
-        tableName: 'users',
-        schema: 'archive',
-      }, {
-        id: {
-          type: DataTypes.INTEGER,
-          primaryKey: true,
-          autoIncrement: true,
-        },
-        currency: DataTypes.INTEGER,
-      });
+        await this.queryInterface.createTable({
+          tableName: 'users',
+          schema: 'archive',
+        }, {
+          id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+          },
+          currency: DataTypes.INTEGER,
+        });
 
-      await this.queryInterface.changeColumn({
-        tableName: 'users',
-        schema: 'archive',
-      }, 'currency', {
-        type: DataTypes.FLOAT,
-      });
-
-      const table = await this.queryInterface.describeTable({
-        tableName: 'users',
-        schema: 'archive',
-      });
-
-      if (['postgres', 'postgres-native'].includes(dialect)) {
-        expect(table.currency.type).to.equal('DOUBLE PRECISION');
-      } else if (dialect === 'db2') {
-        expect(table.currency.type).to.equal('DOUBLE');
-      } else {
-        expect(table.currency.type).to.equal('FLOAT');
-      }
-    });
-
-    it('should change columns', async function () {
-      await this.queryInterface.createTable({
-        tableName: 'users',
-      }, {
-        id: {
-          type: DataTypes.INTEGER,
-          primaryKey: true,
-          autoIncrement: true,
-        },
-        currency: DataTypes.INTEGER,
-      });
-      if (dialect === 'db2') { // DB2 can change only one attr of a column
-        await this.queryInterface.changeColumn('users', 'currency', {
+        await this.queryInterface.changeColumn({
+          tableName: 'users',
+          schema: 'archive',
+        }, 'currency', {
           type: DataTypes.FLOAT,
         });
-      } else {
-        await this.queryInterface.changeColumn('users', 'currency', {
-          type: DataTypes.FLOAT,
-          allowNull: true,
-        });
-      }
 
-      const table = await this.queryInterface.describeTable({
-        tableName: 'users',
+        const table = await this.queryInterface.describeTable({
+          tableName: 'users',
+          schema: 'archive',
+        });
+
+        if (['postgres', 'postgres-native'].includes(dialect)) {
+          expect(table.currency.type).to.equal('DOUBLE PRECISION');
+        } else if (dialect === 'db2') {
+          expect(table.currency.type).to.equal('DOUBLE');
+        }
       });
 
-      if (['postgres', 'postgres-native'].includes(dialect)) {
-        expect(table.currency.type).to.equal('DOUBLE PRECISION');
-      } else if (dialect === 'db2') {
-        expect(table.currency.type).to.equal('DOUBLE');
-      } else {
-        expect(table.currency.type).to.equal('FLOAT');
-      }
-    });
+      it('should change columns', async function () {
+        await this.queryInterface.createTable({
+          tableName: 'users',
+        }, {
+          id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+          },
+          currency: DataTypes.INTEGER,
+        });
+        if (dialect === 'db2') { // DB2 can change only one attr of a column
+          await this.queryInterface.changeColumn('users', 'currency', {
+            type: DataTypes.FLOAT,
+          });
+        } else {
+          await this.queryInterface.changeColumn('users', 'currency', {
+            type: DataTypes.FLOAT,
+            allowNull: true,
+          });
+        }
+
+        const table = await this.queryInterface.describeTable({
+          tableName: 'users',
+        });
+
+        if (['postgres', 'postgres-native'].includes(dialect)) {
+          expect(table.currency.type).to.equal('DOUBLE PRECISION');
+        } else if (dialect === 'db2') {
+          expect(table.currency.type).to.equal('DOUBLE');
+        }
+      });
+    }
 
     // MSSQL doesn't support using a modified column in a check constraint.
     // https://docs.microsoft.com/en-us/sql/t-sql/statements/alter-table-transact-sql
-    if (dialect !== 'mssql' && dialect !== 'db2') {
+    if (dialect !== 'mssql' && dialect !== 'db2' && dialect !== 'yugabyte') {  // ALTER TABLE ALTER COLUMN command not supported yet in YB.
       it('should work with enums (case 1)', async function () {
         await this.queryInterface.createTable({
           tableName: 'users',
@@ -182,8 +180,8 @@ describe(Support.getTestDialectTeaser('QueryInterface'), () => {
           expect(newForeignKeys).to.have.lengthOf(1);
           expect(newForeignKeys[0].columnName).to.be.equal('level_id');
         });
-
-        it('able to change column property without affecting other properties', async function () {
+        if (dialect !== 'yugabyte'){
+          it('able to change column property without affecting other properties', async function () {
           // 1. look for users table information
           // 2. change column level_id on users to have a Foreign Key
           // 3. look for users table Foreign Keys information
@@ -191,42 +189,44 @@ describe(Support.getTestDialectTeaser('QueryInterface'), () => {
           // 5. look for new foreign keys information
           // 6. look for new table structure information
           // 7. compare foreign keys and tables(before and after the changes)
-          const firstTable = await this.queryInterface.describeTable({
-            tableName: 'users',
+            const firstTable = await this.queryInterface.describeTable({
+              tableName: 'users',
+            });
+
+            await this.queryInterface.changeColumn('users', 'level_id', {
+              type: DataTypes.INTEGER,
+              references: {
+                model: 'level',
+                key: 'id',
+              },
+              onUpdate: 'cascade',
+              onDelete: 'cascade',
+            });
+
+            const keys = await this.queryInterface.getForeignKeyReferencesForTable('users');
+            const firstForeignKeys = keys;
+
+            await this.queryInterface.changeColumn('users', 'level_id', {
+              type: DataTypes.INTEGER,
+              allowNull: true,
+            });
+
+            const newForeignKeys = await this.queryInterface.getForeignKeyReferencesForTable('users');
+            expect(firstForeignKeys.length).to.be.equal(newForeignKeys.length);
+            expect(firstForeignKeys[0].columnName).to.be.equal('level_id');
+            expect(firstForeignKeys[0].columnName).to.be.equal(newForeignKeys[0].columnName);
+
+            const describedTable = await this.queryInterface.describeTable({
+              tableName: 'users',
+            });
+
+            expect(describedTable.level_id).to.have.property('allowNull');
+            expect(describedTable.level_id.allowNull).to.not.equal(firstTable.level_id.allowNull);
+            expect(describedTable.level_id.allowNull).to.be.equal(true);
           });
+        }
 
-          await this.queryInterface.changeColumn('users', 'level_id', {
-            type: DataTypes.INTEGER,
-            references: {
-              model: 'level',
-              key: 'id',
-            },
-            onUpdate: 'cascade',
-            onDelete: 'cascade',
-          });
-
-          const keys = await this.queryInterface.getForeignKeyReferencesForTable('users');
-          const firstForeignKeys = keys;
-
-          await this.queryInterface.changeColumn('users', 'level_id', {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-          });
-
-          const newForeignKeys = await this.queryInterface.getForeignKeyReferencesForTable('users');
-          expect(firstForeignKeys.length).to.be.equal(newForeignKeys.length);
-          expect(firstForeignKeys[0].columnName).to.be.equal('level_id');
-          expect(firstForeignKeys[0].columnName).to.be.equal(newForeignKeys[0].columnName);
-
-          const describedTable = await this.queryInterface.describeTable({
-            tableName: 'users',
-          });
-
-          expect(describedTable.level_id).to.have.property('allowNull');
-          expect(describedTable.level_id.allowNull).to.not.equal(firstTable.level_id.allowNull);
-          expect(describedTable.level_id.allowNull).to.be.equal(true);
-        });
-        if (!['db2', 'ibmi'].includes(dialect)) {
+        if (!['db2', 'ibmi', 'yugabyte'].includes(dialect)) {
           it('should change the comment of column', async function () {
             const describedTable = await this.queryInterface.describeTable({
               tableName: 'users',

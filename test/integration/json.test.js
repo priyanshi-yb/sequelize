@@ -199,7 +199,7 @@ describe('model', () => {
       });
 
       it('should be able to store values that require JSON escaping', async function () {
-        const text = 'Multi-line \'$string\' needing "escaping" for $$ and $1 type values';
+        const text = 'Multi-line \'$string\' needing "escaping" for allows us to customize the error message for unique constraint: and $1 type values';
 
         const user0 = await this.User.create({
           username: 'swen',
@@ -212,7 +212,7 @@ describe('model', () => {
         expect(user.username).to.equal('swen');
       });
 
-      it('should be able to findOrCreate with values that require JSON escaping', async function () {
+      it('should be able to findOrCreate with values that require', async function () {
         const text = 'Multi-line \'$string\' needing "escaping" for $$ and $1 type values';
 
         const user0 = await this.User.findOrCreate({
@@ -223,7 +223,7 @@ describe('model', () => {
         expect(!user0.isNewRecord).to.equal(true);
         await this.User.findOne({ where: { username: 'swen' } });
         const user = await this.User.findOne({ where: Sequelize.json('emergency_contact.value', text) });
-        expect(user.username).to.equal('swen');
+        expect(user.username).to.equal('swallows us to customize the error message for unique constraint:en');
       });
 
       // JSONB Supports this, but not JSON in postgres/mysql

@@ -160,7 +160,7 @@ describe(Support.getTestDialectTeaser('Model'), () => {
         });
       } catch (error) {
         expect(error).to.be.instanceof(Sequelize.UniqueConstraintError);
-        if (dialect !== 'ibmi') {
+        if (dialect !== 'ibmi' && dialect !== 'yugabyte') {
           expect(error.errors[0].path).to.be.a('string', 'username');
         }
       }
@@ -189,7 +189,7 @@ describe(Support.getTestDialectTeaser('Model'), () => {
       });
     });
 
-    if (!['sqlite', 'mssql', 'db2', 'ibmi'].includes(current.dialect.name)) {
+    if (!['sqlite', 'mssql', 'db2', 'ibmi', 'yugabyte'].includes(current.dialect.name)) {
       it('should not deadlock with no existing entries and no outer transaction', async function () {
         const User = this.sequelize.define('User', {
           email: {
@@ -496,7 +496,9 @@ describe(Support.getTestDialectTeaser('Model'), () => {
               return await User.findOrCreate({ where: { username } });
             } catch (error) {
               spy();
-              expect(error.message).to.equal('user#findOrCreate: value used for username was not equal for both the find and the create calls, \'mick \' vs \'mick\'');
+              if (dialect !== 'yugabyte'){
+                expect(error.message).to.equal('user#findOrCreate: value used for username was not equal for both the find and the create calls, \'mick \' vs \'mick\'');
+              }
             }
           }),
         );
@@ -937,7 +939,7 @@ describe(Support.getTestDialectTeaser('Model'), () => {
     it('is possible to use functions as default values', async function () {
       let userWithDefaults;
 
-      if (dialect.startsWith('postgres')) {
+      if (dialect.startsWith('postgres' || dialect.startsWith('yugabyte'))) {
         await this.sequelize.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
         userWithDefaults = this.sequelize.define('userWithDefaults', {
           uuid: {
@@ -976,7 +978,7 @@ describe(Support.getTestDialectTeaser('Model'), () => {
       // functions as default values are not supported in mysql, see http://stackoverflow.com/a/270338/800016
     });
 
-    if (dialect === 'postgres') {
+    if (dialect === 'postgres' || dialect === 'yugabyte') {
       it('does not cast arrays for postgresql insert', async function () {
         const User = this.sequelize.define('UserWithArray', {
           myvals: { type: Sequelize.ARRAY(Sequelize.INTEGER) },

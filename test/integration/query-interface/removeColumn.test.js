@@ -66,14 +66,16 @@ describe(Support.getTestDialectTeaser('QueryInterface'), () => {
         expect(table).to.not.have.property('manager');
       });
 
-      it('should be able to remove a column with primaryKey', async function () {
-        await this.queryInterface.removeColumn('users', 'manager');
-        const table0 = await this.queryInterface.describeTable('users');
-        expect(table0).to.not.have.property('manager');
-        await this.queryInterface.removeColumn('users', 'id');
-        const table = await this.queryInterface.describeTable('users');
-        expect(table).to.not.have.property('id');
-      });
+      if (dialect !== 'yugabyte'){ // Cannot remove a key column in yugabyte.
+        it('should be able to remove a column with primaryKey', async function () {
+          await this.queryInterface.removeColumn('users', 'manager');
+          const table0 = await this.queryInterface.describeTable('users');
+          expect(table0).to.not.have.property('manager');
+          await this.queryInterface.removeColumn('users', 'id');
+          const table = await this.queryInterface.describeTable('users');
+          expect(table).to.not.have.property('id');
+        });
+      }
 
       // From MSSQL documentation on ALTER COLUMN:
       //    The modified column cannot be any one of the following:
@@ -143,19 +145,21 @@ describe(Support.getTestDialectTeaser('QueryInterface'), () => {
         expect(table).to.not.have.property('lastName');
       });
 
-      it('should be able to remove a column with primaryKey', async function () {
-        await this.queryInterface.removeColumn({
-          tableName: 'users',
-          schema: 'archive',
-        }, 'id');
+      if (dialect !== 'yugabyte'){ // Cannot remove a key column in YB.
+        it('should be able to remove a column with primaryKey', async function () {
+          await this.queryInterface.removeColumn({
+            tableName: 'users',
+            schema: 'archive',
+          }, 'id');
 
-        const table = await this.queryInterface.describeTable({
-          tableName: 'users',
-          schema: 'archive',
+          const table = await this.queryInterface.describeTable({
+            tableName: 'users',
+            schema: 'archive',
+          });
+
+          expect(table).to.not.have.property('id');
         });
-
-        expect(table).to.not.have.property('id');
-      });
+      }
 
       // From MSSQL documentation on ALTER COLUMN:
       //    The modified column cannot be any one of the following:
