@@ -567,7 +567,7 @@ describe(Support.getTestDialectTeaser('Sequelize'), () => {
       expect(result).to.deep.equal(block);
     });
 
-    if (dialect === 'yugabyte'){
+    if (dialect !== 'yugabyte'){ // change column type not supported in yugabyte
       it('handles alter: true with underscore correctly', async function () {
         this.sequelize.define('access_metric', {
           user_id: {

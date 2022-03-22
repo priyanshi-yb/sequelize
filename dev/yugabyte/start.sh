@@ -6,6 +6,4 @@ cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" # https://stackoverflow.com/a/17744
 docker-compose -p sequelize-yugabyte down --remove-orphans
 docker-compose -p sequelize-yugabyte up -d
 
-export DIALECT='yugabyte'
-
 echo "Local Yugabyte instance is ready for Sequelize tests."

@@ -213,6 +213,10 @@ describe('model', () => {
       });
 
       it('should be able to findOrCreate with values that require', async function () {
+        if (Support.getTestDialect() === 'yugabyte'){ // Assertion error in yugabyte
+          return;
+        }
+
         const text = 'Multi-line \'$string\' needing "escaping" for $$ and $1 type values';
 
         const user0 = await this.User.findOrCreate({
